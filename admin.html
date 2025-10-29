@@ -1,92 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Casa do Lanche</title>
-    <style>
-        /* ====== MESMO CSS ORIGINAL DO index.html ====== */
-        /* Inclua aqui TODO o CSS que você já tinha */
-        
-        /* Adicional para o admin */
-        .admin-container {
-            max-width: 1000px;
-            margin: 3rem auto;
-            padding: 2rem;
-            background: var(--branco);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--sombra);
-        }
-        .admin-container h2 {
-            margin-bottom: 2rem;
-            color: var(--cor-secundaria);
-            text-align: center;
-        }
-        .admin-form input, .admin-form select {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: 2px solid var(--cor-fundo-escuro);
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-        .admin-form button {
-            padding: 1rem 2rem;
-            background-color: var(--cor-primaria);
-            color: var(--branco);
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Casa do Lanche</title>
+<style>
+  /* ==== MESMO CSS DO INDEX ==== */
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--cor-primaria:#d2691e;--cor-secundaria:#8b4513;--cor-acento:#ff7f50;--cor-fundo:#faf0e6;--cor-fundo-escuro:#f5deb3;--cor-texto:#2f1f14;--cor-texto-claro:#5d4e37;--branco:#ffffff;--sombra:rgba(139,69,19,.15)}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--cor-texto);background-color:var(--cor-fundo);line-height:1.6;overflow-x:hidden;padding:2rem;}
+  h1,h2{margin-bottom:1rem;color:var(--cor-secundaria)}
+  label{display:block;margin:1rem 0 .3rem;font-weight:bold}
+  input,select{width:100%;padding:.8rem;border:2px solid var(--cor-fundo-escuro);border-radius:8px;margin-bottom:1rem}
+  button{padding:.8rem 1.5rem;background-color:var(--cor-primaria);color:var(--branco);border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:.3s}
+  button:hover{background-color:var(--cor-secundaria)}
+</style>
 </head>
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">🍔 Admin Casa do Lanche</div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="index.html">Voltar ao Site</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<h1>Admin - Adicionar Item</h1>
 
-    <div class="admin-container">
-        <h2>Gerenciar Cardápio</h2>
-        <form class="admin-form" onsubmit="addMenuItem(event)">
-            <input type="text" id="name" placeholder="Nome do Item" required>
-            <input type="text" id="description" placeholder="Descrição" required>
-            <input type="text" id="price" placeholder="Preço" required>
-            <input type="text" id="image" placeholder="URL da Imagem" required>
-            <select id="category" required>
-                <option value="">Selecione a Categoria</option>
-                <option value="lanches">Lanches</option>
-                <option value="bebidas">Bebidas</option>
-                <option value="porcoes">Porções</option>
-                <option value="sobremesas">Sobremesas</option>
-            </select>
-            <button type="submit">Adicionar Item</button>
-        </form>
-    </div>
+<form id="adminForm">
+  <label>Nome do Produto</label>
+  <input type="text" id="name" required>
+  
+  <label>Descrição</label>
+  <input type="text" id="description" required>
+  
+  <label>Preço</label>
+  <input type="text" id="price" required>
+  
+  <label>Categoria</label>
+  <select id="category" required>
+    <option value="lanches">Lanches</option>
+    <option value="bebidas">Bebidas</option>
+    <option value="porcoes">Porções</option>
+    <option value="sobremesas">Sobremesas</option>
+  </select>
+  
+  <label>URL da Imagem</label>
+  <input type="text" id="image" required>
+  
+  <button type="submit">Adicionar Item</button>
+</form>
 
-    <script>
-        const menuItems = []; // Aqui você pode puxar do index ou API
+<script>
+let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [];
 
-        function addMenuItem(event){
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const description = document.getElementById('description').value;
-            const price = document.getElementById('price').value;
-            const image = document.getElementById('image').value;
-            const category = document.getElementById('category').value;
-
-            const newItem = {name, description, price, image, category};
-            menuItems.push(newItem);
-            alert('Item adicionado com sucesso!');
-            event.target.reset();
-        }
-    </script>
+document.getElementById('adminForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const newItem = {
+    id: Date.now(),
+    name: document.getElementById('name').value,
+    description: document.getElementById('description').value,
+    price: document.getElementById('price').value,
+    category: document.getElementById('category').value,
+    image: document.getElementById('image').value
+  };
+  menuItems.push(newItem);
+  localStorage.setItem('menuItems', JSON.stringify(menuItems));
+  alert('Item adicionado com sucesso!');
+  this.reset();
+});
+</script>
 </body>
 </html>
