@@ -1,86 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Hard.ia</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
-    h1 { text-align: center; }
-    form { margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; }
-    input, select { padding: 5px; margin: 5px; }
-    button { padding: 5px 10px; margin: 5px; cursor: pointer; }
-    .card { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .cards { max-width: 500px; margin: auto; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Casa do Lanche</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--cor-primaria:#d2691e;--cor-secundaria:#8b4513;--cor-acento:#ff7f50;--cor-fundo:#faf0e6;--cor-fundo-escuro:#f5deb3;--cor-texto:#2f1f14;--cor-texto-claro:#5d4e37;--branco:#ffffff;--sombra:rgba(139,69,19,.15)}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--cor-texto);background-color:var(--cor-fundo);line-height:1.6;padding:2rem;}
+  h1,h2{margin-bottom:1rem;color:var(--cor-secundaria)}
+  label{display:block;margin:1rem 0 .3rem;font-weight:bold}
+  input,select{width:100%;padding:.8rem;border:2px solid var(--cor-fundo-escuro);border-radius:8px;margin-bottom:1rem}
+  button{padding:.8rem 1.5rem;background-color:var(--cor-primaria);color:var(--branco);border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:.3s;margin-right:.5rem}
+  button:hover{background-color:var(--cor-secundaria)}
+  .item-list{margin-top:2rem; display:flex; flex-wrap:wrap; gap:1rem;}
+  .item{background:var(--branco);padding:1rem;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;box-shadow:0 3px 10px var(--sombra);width:200px;}
+  .item img{width:100%;border-radius:8px;margin-bottom:.5rem;}
+  .item span{font-weight:bold;text-align:center;}
+</style>
 </head>
 <body>
+<h1>Admin - Gerenciar Itens</h1>
 
-<h1>Admin - Hard.ia</h1>
-
-<form id="formProduto">
-  <input type="text" id="nome" placeholder="Nome do produto" required>
-  <input type="number" id="preco" placeholder="Preço" required>
-  <select id="categoria" required>
-    <option value="">Selecione a categoria</option>
-    <option value="teclado">Teclado</option>
-    <option value="mouse">Mouse</option>
-    <option value="monitor">Monitor</option>
-    <option value="fone">Fone de ouvido</option>
-    <option value="impressora">Impressora</option>
-    <option value="camera">Câmera web</option>
-    <option value="roteador">Roteador</option>
+<form id="adminForm">
+  <label>Nome do Produto</label>
+  <input type="text" id="name" required>
+  
+  <label>Descrição</label>
+  <input type="text" id="description" required>
+  
+  <label>Preço</label>
+  <input type="text" id="price" required>
+  
+  <label>Categoria</label>
+  <select id="category" required>
+    <option value="lanches">Lanches</option>
+    <option value="bebidas">Bebidas</option>
+    <option value="porcoes">Porções</option>
+    <option value="sobremesas">Sobremesas</option>
   </select>
-  <button type="submit">Adicionar Produto</button>
+  
+  <label>Imagem</label>
+  <input type="file" id="image" accept="image/*" required>
+  
+  <button type="submit">Adicionar Item</button>
 </form>
 
-<div class="cards" id="produtos"></div>
+<h2>Itens Cadastrados</h2>
+<div class="item-list" id="itemList"></div>
 
 <script>
-const form = document.getElementById('formProduto');
-const produtosDiv = document.getElementById('produtos');
+let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [];
+const form = document.getElementById('adminForm');
+const itemList = document.getElementById('itemList');
 
-let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-
-function salvarLocalStorage() {
-  localStorage.setItem('produtos', JSON.stringify(produtos));
-}
-
-function renderizarProdutos() {
-  produtosDiv.innerHTML = '';
-  produtos.forEach((produto, index) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div>
-        <strong>${produto.nome}</strong> - R$${produto.preco} <em>(${produto.categoria})</em>
-      </div>
-      <button onclick="apagarProduto(${index})">Apagar</button>
+function renderItems() {
+  itemList.innerHTML = '';
+  menuItems.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <img src="${item.image}" alt="${item.name}">
+      <span>${item.name} (${item.category}) - ${item.price}</span>
+      <button onclick="removeItem(${index})">Remover</button>
     `;
-    produtosDiv.appendChild(card);
+    itemList.appendChild(div);
   });
 }
 
-function apagarProduto(index) {
-  produtos.splice(index, 1);
-  salvarLocalStorage();
-  renderizarProdutos();
-}
-
-form.addEventListener('submit', e => {
+// Adicionar item com upload
+form.addEventListener('submit', function(e){
   e.preventDefault();
-  const nome = document.getElementById('nome').value;
-  const preco = document.getElementById('preco').value;
-  const categoria = document.getElementById('categoria').value;
-  produtos.push({ nome, preco, categoria });
-  salvarLocalStorage();
-  renderizarProdutos();
-  form.reset();
+  const file = document.getElementById('image').files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(){
+      const newItem = {
+        id: Date.now(),
+        name: document.getElementById('name').value,
+        description: document.getElementById('description').value,
+        price: document.getElementById('price').value,
+        category: document.getElementById('category').value,
+        image: reader.result
+      };
+      menuItems.push(newItem);
+      localStorage.setItem('menuItems', JSON.stringify(menuItems));
+      form.reset();
+      renderItems();
+    }
+    reader.readAsDataURL(file);
+  }
 });
 
-// Inicializa a lista ao carregar
-renderizarProdutos();
-</script>
+// Remover item
+function removeItem(index){
+  if(confirm(`Deseja remover "${menuItems[index].name}"?`)){
+    menuItems.splice(index,1);
+    localStorage.setItem('menuItems', JSON.stringify(menuItems));
+    renderItems();
+  }
+}
 
+// Inicializa lista
+renderItems();
+</script>
 </body>
 </html>
