@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa do Lanche - Sabor Tradicional</title>
+    <style>
+        /* ====== CSS ORIGINAL QUE VOCÊ JÁ TEM ====== */
+        /* Inclua aqui TODO o CSS que você mandou no index.html anterior */
+    </style>
+</head>
+<body>
+    <!-- Header e Navbar -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🍔 Casa do Lanche</div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
+                    <li><a href="#cardapio" onclick="closeMenu()">Cardápio</a></li>
+                    <li><a href="#galeria" onclick="closeMenu()">Galeria</a></li>
+                    <li><a href="#sobre" onclick="closeMenu()">Sobre</a></li>
+                    <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Casa do Lanche</h1>
+            <p>Sabor tradicional que aquece o coração</p>
+            <a href="#cardapio" class="btn">Ver Cardápio</a>
+        </div>
+    </section>
+
+    <!-- Cardápio -->
+    <section id="cardapio" class="section">
+        <h2 class="section-title">Nosso Cardápio</h2>
+        <div class="menu-categories">
+            <button class="category-btn active" onclick="filterMenu('todos')">Todos</button>
+            <button class="category-btn" onclick="filterMenu('lanches')">Lanches</button>
+            <button class="category-btn" onclick="filterMenu('bebidas')">Bebidas</button>
+            <button class="category-btn" onclick="filterMenu('porcoes')">Porções</button>
+            <button class="category-btn" onclick="filterMenu('sobremesas')">Sobremesas</button>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <!-- Galeria -->
+    <section id="galeria" class="section" style="background-color: var(--cor-fundo-escuro);">
+        <h2 class="section-title">Nosso Ambiente</h2>
+        <div class="gallery-grid">
+            <!-- Galeria de imagens -->
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="section">
+        <h2 class="section-title">Sobre Nós</h2>
+        <div class="about-content">
+            <!-- Conteúdo sobre -->
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="section" style="background-color: var(--cor-fundo-escuro);">
+        <h2 class="section-title">Entre em Contato</h2>
+        <div class="contact-content">
+            <!-- Informações e formulário -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Casa do Lanche - Todos os direitos reservados</p>
+        <div class="social-links">
+            <a href="#">📘</a>
+            <a href="#">📷</a>
+            <a href="#">🐦</a>
+        </div>
+    </footer>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5511987654321?text=Olá! Gostaria de fazer um pedido" 
+       class="whatsapp-float" target="_blank" title="Fale conosco pelo WhatsApp">💬</a>
+
+    <script>
+        /* ====== JS ORIGINAL ====== */
+        // Menu de itens
+        const menuItems = [ /* seus itens */ ];
+        function displayMenu(items){ /* ... */ }
+        function filterMenu(category){ /* ... */ }
+        function toggleMenu(){ /* ... */ }
+        function closeMenu(){ /* ... */ }
+        function handleSubmit(event){ /* ... */ }
+
+        displayMenu(menuItems);
+    </script>
+</body>
+  </html>
