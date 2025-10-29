@@ -1,103 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa do Lanche - Sabor Tradicional</title>
-    <style>
-        /* ====== CSS ORIGINAL QUE VOCÊ JÁ TEM ====== */
-        /* Inclua aqui TODO o CSS que você mandou no index.html anterior */
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa do Lanche - Sabor Tradicional</title>
+<style>
+  /* ==== CSS ORIGINAL ==== */
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--cor-primaria:#d2691e;--cor-secundaria:#8b4513;--cor-acento:#ff7f50;--cor-fundo:#faf0e6;--cor-fundo-escuro:#f5deb3;--cor-texto:#2f1f14;--cor-texto-claro:#5d4e37;--branco:#ffffff;--sombra:rgba(139,69,19,.15)}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--cor-texto);background-color:var(--cor-fundo);line-height:1.6;overflow-x:hidden}
+  .header{background:linear-gradient(135deg,var(--cor-secundaria) 0%,var(--cor-primaria) 100%);color:var(--branco);padding:1rem 0;position:sticky;top:0;z-index:1000;box-shadow:0 4px 12px var(--sombra)}
+  .nav-container{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-size:1.8rem;font-weight:bold;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
+  .nav-menu{display:flex;list-style:none;gap:2rem}
+  .nav-menu a{color:var(--branco);text-decoration:none;font-weight:500;transition:opacity .3s}
+  .nav-menu a:hover{opacity:.8}
+  .menu-toggle{display:none;background:none;border:none;color:var(--branco);font-size:1.5rem;cursor:pointer}
+  .hero{background:linear-gradient(rgba(139,69,19,.7),rgba(210,105,30,.7)),url('https://images.unsplash.com/photo-1550547660-d9450f859349?w=1600&h=900&fit=crop') center/cover;color:var(--branco);text-align:center;padding:8rem 2rem;position:relative}
+  .hero-content h1{font-size:3.5rem;margin-bottom:1rem;text-shadow:3px 3px 6px rgba(0,0,0,.5);animation:fadeInUp 1s ease}
+  .hero-content p{font-size:1.3rem;margin-bottom:2rem;text-shadow:2px 2px 4px rgba(0,0,0,.5);animation:fadeInUp 1s ease .2s backwards}
+  .btn{display:inline-block;padding:1rem 2.5rem;background-color:var(--cor-acento);color:var(--branco);text-decoration:none;border-radius:50px;font-weight:bold;font-size:1.1rem;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 15px rgba(255,127,80,.4);animation:fadeInUp 1s ease .4s backwards}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,127,80,.6)}
+  .section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+  .section-title{text-align:center;font-size:2.5rem;color:var(--cor-secundaria);margin-bottom:3rem;position:relative;padding-bottom:1rem}
+  .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background-color:var(--cor-acento);border-radius:2px}
+  .menu-categories{display:flex;justify-content:center;gap:1rem;margin-bottom:3rem;flex-wrap:wrap}
+  .category-btn{padding:.8rem 1.8rem;background-color:var(--branco);color:var(--cor-secundaria);border:2px solid var(--cor-primaria);border-radius:30px;cursor:pointer;font-weight:600;transition:all .3s}
+  .category-btn:hover,.category-btn.active{background-color:var(--cor-primaria);color:var(--branco);transform:translateY(-2px);box-shadow:0 4px 12px var(--sombra)}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+  .menu-item{background:var(--branco);border-radius:15px;overflow:hidden;box-shadow:0 5px 20px var(--sombra);transition:transform .3s,box-shadow .3s}
+  .menu-item:hover{transform:translateY(-8px);box-shadow:0 8px 30px rgba(139,69,19,.25)}
+  .menu-item-image{width:100%;height:200px;object-fit:cover}
+  .menu-item-content{padding:1.5rem}
+  .menu-item-title{font-size:1.3rem;color:var(--cor-secundaria);margin-bottom:.5rem;font-weight:bold}
+  .menu-item-description{color:var(--cor-texto-claro);margin-bottom:1rem;font-size:.95rem}
+  .menu-item-price{font-size:1.4rem;color:var(--cor-primaria);font-weight:bold}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:768px){.nav-menu{position:fixed;left:-100%;top:70px;flex-direction:column;background-color:var(--cor-secundaria);width:100%;text-align:center;transition:left .3s;padding:2rem 0;box-shadow:0 4px 12px var(--sombra)}.nav-menu.active{left:0}.menu-toggle{display:block}.hero-content h1{font-size:2.5rem}.hero-content p{font-size:1.1rem}.section{padding:3rem 1rem}.section-title{font-size:2rem}}
+</style>
 </head>
 <body>
-    <!-- Header e Navbar -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">🍔 Casa do Lanche</div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
-                    <li><a href="#cardapio" onclick="closeMenu()">Cardápio</a></li>
-                    <li><a href="#galeria" onclick="closeMenu()">Galeria</a></li>
-                    <li><a href="#sobre" onclick="closeMenu()">Sobre</a></li>
-                    <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">🍔 Casa do Lanche</div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <nav>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
+        <li><a href="#cardapio" onclick="closeMenu()">Cardápio</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <!-- Hero -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h1>Casa do Lanche</h1>
-            <p>Sabor tradicional que aquece o coração</p>
-            <a href="#cardapio" class="btn">Ver Cardápio</a>
-        </div>
-    </section>
+<section id="inicio" class="hero">
+  <div class="hero-content">
+    <h1>Casa do Lanche</h1>
+    <p>Sabor tradicional que aquece o coração</p>
+    <a href="#cardapio" class="btn">Ver Cardápio</a>
+  </div>
+</section>
 
-    <!-- Cardápio -->
-    <section id="cardapio" class="section">
-        <h2 class="section-title">Nosso Cardápio</h2>
-        <div class="menu-categories">
-            <button class="category-btn active" onclick="filterMenu('todos')">Todos</button>
-            <button class="category-btn" onclick="filterMenu('lanches')">Lanches</button>
-            <button class="category-btn" onclick="filterMenu('bebidas')">Bebidas</button>
-            <button class="category-btn" onclick="filterMenu('porcoes')">Porções</button>
-            <button class="category-btn" onclick="filterMenu('sobremesas')">Sobremesas</button>
-        </div>
-        <div class="menu-grid" id="menuGrid"></div>
-    </section>
+<section id="cardapio" class="section">
+  <h2 class="section-title">Nosso Cardápio</h2>
+  <div class="menu-categories">
+    <button class="category-btn active" onclick="filterMenu('todos')">Todos</button>
+    <button class="category-btn" onclick="filterMenu('lanches')">Lanches</button>
+    <button class="category-btn" onclick="filterMenu('bebidas')">Bebidas</button>
+    <button class="category-btn" onclick="filterMenu('porcoes')">Porções</button>
+    <button class="category-btn" onclick="filterMenu('sobremesas')">Sobremesas</button>
+  </div>
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
 
-    <!-- Galeria -->
-    <section id="galeria" class="section" style="background-color: var(--cor-fundo-escuro);">
-        <h2 class="section-title">Nosso Ambiente</h2>
-        <div class="gallery-grid">
-            <!-- Galeria de imagens -->
-        </div>
-    </section>
+<script>
+const menuGrid = document.getElementById('menuGrid');
 
-    <!-- Sobre -->
-    <section id="sobre" class="section">
-        <h2 class="section-title">Sobre Nós</h2>
-        <div class="about-content">
-            <!-- Conteúdo sobre -->
-        </div>
-    </section>
+// Pega itens do localStorage ou cria array vazio
+let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [];
 
-    <!-- Contato -->
-    <section id="contato" class="section" style="background-color: var(--cor-fundo-escuro);">
-        <h2 class="section-title">Entre em Contato</h2>
-        <div class="contact-content">
-            <!-- Informações e formulário -->
-        </div>
-    </section>
+// Exibe os itens
+function displayMenu(items){
+  menuGrid.innerHTML='';
+  items.forEach(item=>{
+    const html=`<div class="menu-item" data-category="${item.category}">
+      <img src="${item.image}" alt="${item.name}" class="menu-item-image">
+      <div class="menu-item-content">
+        <h3 class="menu-item-title">${item.name}</h3>
+        <p class="menu-item-description">${item.description}</p>
+        <p class="menu-item-price">${item.price}</p>
+      </div>
+    </div>`;
+    menuGrid.innerHTML+=html;
+  });
+}
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 Casa do Lanche - Todos os direitos reservados</p>
-        <div class="social-links">
-            <a href="#">📘</a>
-            <a href="#">📷</a>
-            <a href="#">🐦</a>
-        </div>
-    </footer>
+// Filtra categorias
+function filterMenu(category){
+  document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(category==='todos') displayMenu(menuItems);
+  else displayMenu(menuItems.filter(i=>i.category===category));
+}
 
-    <!-- WhatsApp -->
-    <a href="https://wa.me/5511987654321?text=Olá! Gostaria de fazer um pedido" 
-       class="whatsapp-float" target="_blank" title="Fale conosco pelo WhatsApp">💬</a>
+// Menu mobile
+function toggleMenu(){document.getElementById('navMenu').classList.toggle('active')}
+function closeMenu(){document.getElementById('navMenu').classList.remove('active')}
 
-    <script>
-        /* ====== JS ORIGINAL ====== */
-        // Menu de itens
-        const menuItems = [ /* seus itens */ ];
-        function displayMenu(items){ /* ... */ }
-        function filterMenu(category){ /* ... */ }
-        function toggleMenu(){ /* ... */ }
-        function closeMenu(){ /* ... */ }
-        function handleSubmit(event){ /* ... */ }
-
-        displayMenu(menuItems);
-    </script>
+// Inicializa
+displayMenu(menuItems);
+</script>
 </body>
-  </html>
+</html>
